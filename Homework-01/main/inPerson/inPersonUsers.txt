@@ -1,0 +1,16 @@
+
+{
+	"name": "Sasha",
+	"age": 61,
+	"city": "Vradievka"
+}
+{
+	"name": "Luda",
+	"age": 59,
+	"city": "Cherkassi"
+}
+{
+	"name": "Petya",
+	"age": 63,
+	"city": "Kodima"
+}

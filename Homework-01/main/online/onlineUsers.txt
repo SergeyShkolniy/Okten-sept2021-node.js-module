@@ -1,0 +1,16 @@
+
+{
+	"name": "Alena",
+	"age": 39,
+	"city": "Kodima"
+}
+{
+	"name": "Evgen",
+	"age": 8,
+	"city": "Odessa-Kodima"
+}
+{
+	"name": "Sergey",
+	"age": 38,
+	"city": "Odessa"
+}
