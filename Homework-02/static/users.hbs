@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .wrapper{
+            width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .container{
+            width: 250px;
+            border: 1px solid brown;
+            padding: 15px;
+            margin: 5px;
+            border-radius: 5px;
+            box-shadow: 1px 1px 2px brown;
+        }
+        .items{
+            padding: 10px;
+        }
+        input{
+            padding: 5px 50px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Users</title>
+</head>
+<body>
+<form action="/login">
+    <input type="submit" value="Перейти на страницу регистрации">
+</form>
+<div class="wrapper">
+    {{#each users}}
+        <div class="container">
+            <div class="items">firstName:<b> {{this.firstName}}</b></div>
+            <div class="items">lastName:<b> {{this.lastName}}</b></div>
+            <div class="items">age:<b> {{this.age}}</b></div>
+            <div class="items">city:<b> {{this.city}}</b></div>
+            <div class="items">email:<b> {{this.email}}</b></div>
+            <div class="items">password:<b> {{this.password}}</b></div>
+        </div>
+    {{/each}}
+</div>
+
+</body>
+</html>

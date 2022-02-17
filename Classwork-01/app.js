@@ -115,25 +115,43 @@ const path = require('path');
 // якщо дані які в ній лежать - це файли тоді вам потрібно їх очистити,
 //     але не видаляти, якщо дані - це папки, вам потрібно їх перейменувати і додати до назви префікс _new
 
+
+
 const multi = () =>{
-    fs.readdir(path.join(__dirname, 'task3'), {recursive:true},(err, data) =>{
+    fs.readdir(path.join(__dirname, 'task3'),(err, files) =>{
         if (err) {
             console.log(err);
             throw err;
         }
-        fs.stat("txt", function(err, stats) {
-            console.log(stats)
-        });
-       // data.map( value => {
-       //     const valueStatus = value.endsWith('txt')
-       //     if(valueStatus){
-       //         console.log('true')
-       //     }else{
-       //         console.log('false')
-       //     }
-       // })
+        console.log(files)
+        for (let file of files){
+            fs.stat('file', (errStat, status) => {
+                if (err) {
+                    console.log(err);
+                    throw err;
+                }
+                if(file === status.isDirectory()){
+                    console.log('Папка: ' + file);
+                    multi(path + '/' + file);
+                }else{
+                    console.log('Файл: ' + file);
+                }
+
+            })
+        }
+
+
     })
 
 }
 
 multi()
+
+// data.map( value => {
+//     const valueStatus = value.endsWith('txt')
+//     if(valueStatus){
+//         console.log('true')
+//     }else{
+//         console.log('false')
+//     }
+// })
