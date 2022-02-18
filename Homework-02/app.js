@@ -18,30 +18,34 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
-app.get('/users', (req, res) =>{
+app.get('/signIn', (req, res) => {
+    res.render('signIn');
+});
 
-    if (Object.keys(req.query).length){
+app.get('/users', (req, res) => {
+
+    if (Object.keys(req.query).length) {
         let usersQuery = [...users];
 
-        if (req.query.age){
+        if (req.query.age) {
             usersQuery = usersQuery.filter(user => user.age === req.query.age);
         }
-        if (req.query.city){
+        if (req.query.city) {
             usersQuery = usersQuery.filter(user => user.city === req.query.city);
         }
         res.render('users', {users: usersQuery});
         return;
     }
     res.render('users', {users});
-} )
+})
 
 app.get('/users/:userId', (req, res) => {
     const user = users.find(user => user.id === +req.params.userId);
 
-    if (!user){
+    if (!user) {
         console.log('Такого пользователя нет!!!');
         res.redirect('/notFound');
-    }else{
+    } else {
         res.render('user', {user});
     }
 })
@@ -57,10 +61,21 @@ app.post('/login', (req, res) => {
         console.log('Пользователь с такой электронной почтой уже есть!!!');
         res.redirect('/error');
     } else {
-        users.push({...req.body, id:users.length+1});
+        users.push({...req.body, id: users.length + 1});
         res.redirect('/users');
     }
-})
+});
+
+app.post('/signIn', (req, res) => {
+    const signInUser = users.find(user => user.email === req.body.email && user.password === req.body.password);
+
+    if (signInUser) {
+        res.redirect(`/users/${signInUser.id}`);
+    } else {
+        console.log('Неправильные данные при входе!!!');
+        res.redirect('/error');
+    }
+});
 
 app.use((req, res) => {
     res.render('notFound');
