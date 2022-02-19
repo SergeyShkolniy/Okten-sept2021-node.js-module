@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .form{
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            row-gap: 15px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid brown;
+            border-radius: 5px;
+            box-shadow: 1px 1px 2px brown;
+        }
+        .lable{
+           display: flex;
+           justify-content: space-between;
+            margin: 0 30px;
+        }
+        .submit{
+            display: flex;
+            justify-content: center;
+        }
+        .input{
+            padding: 2px 30px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Login</title>
+</head>
+<body>
+
+<form action="/login" method="post" class="form">
+    <label class="lable">First Name: <input type="text" name="firstName"></label>
+    <label class="lable">Last Name: <input type="text" name="lastName"></label>
+    <label class="lable">Age: <input type="text" name="age"></label>
+    <label class="lable">City: <input type="text" name="city"></label>
+    <label class="lable">Email: <input type="email" name="email"></label>
+    <label class="lable">Password: <input type="password" name="password"></label>
+    <label class="submit"><input class="input" type="submit" value="send"></label>
+</form>
+
+</body>
+</html>
