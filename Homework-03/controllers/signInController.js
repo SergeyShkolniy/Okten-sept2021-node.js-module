@@ -8,12 +8,15 @@ class SignInController{
 
     signInToPageUser(req, res){
         const signInUser = users.find(user => user.email === req.body.email && user.password === req.body.password);
-
-        if (signInUser) {
-            res.redirect(`/users/${signInUser.id}`);
-        } else {
-            console.log('Неправильные данные при входе!!!');
-            res.redirect('/error');
+        try {
+            if(!signInUser){
+                throw new Error('Неправильные данные при входе!!!');
+            }else {
+                res.redirect(`/users/${signInUser.id}`);
+            }
+        }catch (err){
+            console.log(err.message);
+            res.render('error', {send: err.message});
         }
     }
 }

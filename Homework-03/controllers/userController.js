@@ -13,6 +13,7 @@ class UserController {
                 usersQuery = usersQuery.filter(user => user.city === req.query.city);
             }
             res.render('users', {users: usersQuery});
+            return;
         }
         res.render('users', {users});
     }

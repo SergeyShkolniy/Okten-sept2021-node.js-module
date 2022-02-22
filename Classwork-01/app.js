@@ -85,31 +85,30 @@ const path = require('path');
 // 3. Створіть папку (можете вручну)
 // напишіть скріпт який створить в ній якись дані (можуть бути нові папки і файли(в файли запишіть якусь дату) )
 
-// fs.mkdir(path.join(__dirname, 'task3'), (err) => {
-//     if (err) {
-//         console.log(err);
-//         throw err;
-//     }
-//     console.log('Создали папку task3');
-//
-//     for (let i = 0; i<10; i++){
-//         fs.mkdir(path.join(__dirname, 'task3', `folder ${i}`), {recursive:true},(err) => {
-//             if (err) {
-//                 console.log(err);
-//                 throw err;
-//             }
-//             console.log(`Создаем папку ${i} `);
-//
-//             fs.writeFile(path.join(__dirname, 'task3', `folder ${i}`,  `text${i}.txt`),`Some Data folder ${i}`, (err) => {
-//                 if (err) {
-//                     console.log(err);
-//                     throw err;
-//                 }
-//                 console.log('Создали `text${i}.txt` и записали данные');
-//             })
-//         })
-//     }
-// })
+fs.mkdir(path.join(__dirname, 'task3'), (err) => {
+    if (err) {
+        console.log(err);
+        throw err;
+    }
+    console.log('Создали папку task3');
+
+    for (let i = 0; i<5; i++){
+        fs.mkdir(path.join(__dirname, 'task3', `folder ${i}`), {recursive: true}, (err) => {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
+            console.log(`Создаем папку ${i} `);
+        });
+        fs.writeFile(path.join(__dirname, 'task3', `text${i}.txt`),`Some Data folder ${i}`, (err) => {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
+            console.log(`Создали text${i}.txt и записали данные`);
+        })
+    }
+})
 
 // і напишіть функцію яка буде зчитувати папку і перевіряти
 // якщо дані які в ній лежать - це файли тоді вам потрібно їх очистити,
@@ -117,41 +116,33 @@ const path = require('path');
 
 
 
-const multi = () =>{
-    fs.readdir(path.join(__dirname, 'task3'),(err, files) =>{
-        if (err) {
-            console.log(err);
-            throw err;
-        }
-        console.log(files)
-        for (let file of files){
-            fs.stat('file', (errStat, status) => {
-                if (err) {
-                    console.log(err);
-                    throw err;
-                }
-                if(file === status.isDirectory()){
-                    console.log('Папка: ' + file);
-                    multi(path + '/' + file);
-                }else{
-                    console.log('Файл: ' + file);
-                }
-
-            })
-        }
-
-
-    })
-
-}
-
-multi()
-
-// data.map( value => {
-//     const valueStatus = value.endsWith('txt')
-//     if(valueStatus){
-//         console.log('true')
-//     }else{
-//         console.log('false')
-//     }
-// })
+// const multi = () =>{
+//     fs.readdir(path.join(__dirname, 'task3'),(err, files) =>{
+//         if (err) {
+//             console.log(err);
+//             throw err;
+//         }
+//
+//         for (let file of files){
+//          fs.stat(path.join(__dirname, 'task3', file), (err, status) => {
+//              if (status.isDirectory()){
+//                  fs.rename(path.join(__dirname, 'task3', file), path.join(__dirname, 'task3', `new_${file}`), (err) => {
+//                      if (err) {
+//                          console.log(err);
+//                          throw err;
+//                      }
+//                  });
+//              }else {
+//                  fs.truncate(path.join(__dirname, 'task3', file), (err) =>{
+//                      if (err) {
+//                          console.log(err);
+//                          throw err;
+//                      }
+//                  })
+//              }
+//             });
+//         }
+//     })
+// }
+//
+// multi()

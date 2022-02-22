@@ -1,6 +1,7 @@
 function loginFieldValidation (req, res, next){
    try {
        const {firstName, lastName, age, city, email, password} = req.body;
+
        if (!firstName) {
            throw new Error('не заполнено поле firstName ');
        }
@@ -23,7 +24,7 @@ function loginFieldValidation (req, res, next){
 
    }catch (err){
        console.log(err.message);
-       res.send(err.message);
+       res.render('error', {send: err.message});
    }
 }
 
