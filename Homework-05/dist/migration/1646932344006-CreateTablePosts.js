@@ -17,14 +17,14 @@ class CreateTablePosts1646932344006 {
                 {
                     name: 'title',
                     type: 'varchar',
-                    width: 250,
+                    width: 255,
                     isUnique: true,
                     isNullable: false,
                 },
                 {
                     name: 'text',
                     type: 'varchar',
-                    width: 250,
+                    width: 255,
                     isNullable: false,
                 },
                 {
