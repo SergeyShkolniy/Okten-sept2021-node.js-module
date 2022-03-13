@@ -13,6 +13,7 @@ exports.UserEntity = void 0;
 const typeorm_1 = require("typeorm");
 const commonFieldsEntity_1 = require("./commonFieldsEntity");
 const postEntity_1 = require("./postEntity");
+const commentsEntity_1 = require("./commentsEntity");
 let UserEntity = class UserEntity extends commonFieldsEntity_1.CommonFieldsEntity {
 };
 __decorate([
@@ -67,6 +68,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => postEntity_1.PostEntity, (post) => post.user),
     __metadata("design:type", Array)
 ], UserEntity.prototype, "posts", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => commentsEntity_1.CommentsEntity, (comment) => comment.user),
+    __metadata("design:type", Array)
+], UserEntity.prototype, "comments", void 0);
 UserEntity = __decorate([
     (0, typeorm_1.Entity)('Users', { database: 'okten' })
 ], UserEntity);
