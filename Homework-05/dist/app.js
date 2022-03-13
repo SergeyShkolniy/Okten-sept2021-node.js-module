@@ -11,7 +11,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded());
 app.get('/users', async (req, res) => {
-    const users = await (0, typeorm_1.getManager)().getRepository(userEntity_1.UserEntity).find();
+    const users = await (0, typeorm_1.getManager)().getRepository(userEntity_1.UserEntity).find({ relations: ['posts'] });
     console.log(users);
     res.json(users);
 });
@@ -34,7 +34,7 @@ app.delete('/users/:id', async (req, res) => {
     console.log(req.body);
     const createdUser = await (0, typeorm_1.getManager)()
         .getRepository(userEntity_1.UserEntity)
-        .delete({ id: Number(req.params.id) });
+        .softDelete({ id: Number(req.params.id) });
     res.json(createdUser);
 });
 app.listen(5200, async () => {
