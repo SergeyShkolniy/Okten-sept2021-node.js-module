@@ -19,6 +19,25 @@ app.post('/users', async (req, res) => {
     res.json(createdUser);
 });
 
+app.patch('/users/:id', async (req, res) => {
+    const { password, email } = req.body;
+    const createdUser = await getManager()
+        .getRepository(UserEntity)
+        .update({ id: Number(req.params.id) }, {
+            password,
+            email,
+        });
+    res.json(createdUser);
+});
+
+app.delete('/users/:id', async (req, res) => {
+    console.log(req.body);
+    const createdUser = await getManager()
+        .getRepository(UserEntity)
+        .delete({ id: Number(req.params.id) });
+    res.json(createdUser);
+});
+
 app.listen(5200, async () => {
     console.log('Server started of PORT 5200 !!!');
 
