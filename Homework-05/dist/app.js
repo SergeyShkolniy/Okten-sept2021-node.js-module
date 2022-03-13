@@ -6,7 +6,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const typeorm_1 = require("typeorm");
+const userEntity_1 = require("./entity/userEntity");
 const app = (0, express_1.default)();
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded());
+app.get('/users', async (req, res) => {
+    const users = await (0, typeorm_1.getManager)().getRepository(userEntity_1.UserEntity).find();
+    console.log(users);
+    res.json(users);
+});
+app.post('/users', async (req, res) => {
+    console.log(req.body);
+    const createdUser = await (0, typeorm_1.getManager)().getRepository(userEntity_1.UserEntity).save(req.body);
+    res.json(createdUser);
+});
 app.listen(5200, async () => {
     console.log('Server started of PORT 5200 !!!');
     try {
