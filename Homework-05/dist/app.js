@@ -17,6 +17,8 @@ require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const typeorm_1 = require("typeorm");
 const userEntity_1 = require("./entity/userEntity");
+const postEntity_1 = require("./entity/postEntity");
+const commentsEntity_1 = require("./entity/commentsEntity");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded());
@@ -24,6 +26,25 @@ app.get('/users', async (req, res) => {
     const users = await (0, typeorm_1.getManager)().getRepository(userEntity_1.UserEntity).find({ relations: ['posts', 'comments'] });
     console.log(users);
     res.json(users);
+});
+app.get('/posts/:userId', async (req, res) => {
+    const { userId } = req.params;
+    const allUserPosts = await (0, typeorm_1.getManager)()
+        .getRepository(postEntity_1.PostEntity)
+        .find({ userId: Number(userId) });
+    res.json(allUserPosts);
+});
+app.get('/comments/:authorId', async (req, res) => {
+    const { authorId } = req.params;
+    const allCommentsUser = await (0, typeorm_1.getManager)()
+        .getRepository(commentsEntity_1.CommentsEntity)
+        .find({
+        relations: ['post'],
+        where: {
+            authorId: Number(authorId),
+        },
+    });
+    res.json(allCommentsUser);
 });
 app.post('/users', async (req, res) => {
     console.log(req.body);
@@ -39,6 +60,15 @@ app.patch('/users/:id', async (req, res) => {
         email,
     });
     res.json(createdUser);
+});
+app.patch('/posts/:id', async (req, res) => {
+    const { text } = req.body;
+    const patchPost = await (0, typeorm_1.getManager)()
+        .getRepository(postEntity_1.PostEntity)
+        .update({ id: Number(req.params.id) }, {
+        text,
+    });
+    res.json(patchPost);
 });
 app.delete('/users/:id', async (req, res) => {
     console.log(req.body);

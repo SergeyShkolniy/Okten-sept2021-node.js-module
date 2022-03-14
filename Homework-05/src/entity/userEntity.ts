@@ -11,6 +11,7 @@ export interface IUserEntity {
     email: string;
     password: string;
     posts: any[];
+    comments: any[];
 }
 
 @Entity('Users', { database: 'okten' })

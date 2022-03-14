@@ -13,6 +13,8 @@ import 'reflect-metadata';
 import express, { Request, Response } from 'express';
 import { createConnection, getManager } from 'typeorm';
 import { UserEntity } from './entity/userEntity';
+import { PostEntity } from './entity/postEntity';
+import { CommentsEntity } from './entity/commentsEntity';
 
 const app = express();
 app.use(express.json());
@@ -22,6 +24,26 @@ app.get('/users', async (req:Request, res:Response) => {
     const users = await getManager().getRepository(UserEntity).find({ relations: ['posts', 'comments'] });
     console.log(users);
     res.json(users);
+});
+app.get('/posts/:userId', async (req:Request, res:Response) => {
+    const { userId } = req.params;
+    const allUserPosts = await getManager()
+        .getRepository(PostEntity)
+        .find({ userId: Number(userId) });
+    res.json(allUserPosts);
+});
+
+app.get('/comments/:authorId', async (req:Request, res:Response) => {
+    const { authorId } = req.params;
+    const allCommentsUser = await getManager()
+        .getRepository(CommentsEntity)
+        .find({
+            relations: ['post'],
+            where: {
+                authorId: Number(authorId),
+            },
+        });
+    res.json(allCommentsUser);
 });
 
 app.post('/users', async (req, res) => {
@@ -39,6 +61,16 @@ app.patch('/users/:id', async (req, res) => {
             email,
         });
     res.json(createdUser);
+});
+
+app.patch('/posts/:id', async (req, res) => {
+    const { text } = req.body;
+    const patchPost = await getManager()
+        .getRepository(PostEntity)
+        .update({ id: Number(req.params.id) }, {
+            text,
+        });
+    res.json(patchPost);
 });
 
 app.delete('/users/:id', async (req, res) => {
