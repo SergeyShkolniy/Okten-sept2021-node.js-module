@@ -61,15 +61,53 @@ app.patch('/users/:id', async (req, res) => {
     });
     res.json(createdUser);
 });
-app.patch('/posts/:id', async (req, res) => {
+app.patch('/posts/:userId', async (req, res) => {
     const { text } = req.body;
     const patchPost = await (0, typeorm_1.getManager)()
         .getRepository(postEntity_1.PostEntity)
-        .update({ id: Number(req.params.id) }, {
+        .update({ id: Number(req.params.userId) }, {
         text,
     });
     res.json(patchPost);
 });
+app.patch('/comments/action', async (req, res) => {
+    const { action, commentId } = req.body;
+    if (action === 'like') {
+        const patchComment = await (0, typeorm_1.getManager)()
+            .getRepository(commentsEntity_1.CommentsEntity)
+            .update({ id: Number(commentId) }, {
+            like: +1,
+        });
+        res.json(patchComment);
+    }
+    if (action === 'dislike') {
+        const patchComment = await (0, typeorm_1.getManager)()
+            .getRepository(commentsEntity_1.CommentsEntity)
+            .update({ id: Number(commentId) }, {
+            dislike: -1,
+        });
+        res.json(patchComment);
+    }
+});
+// app.patch('/comments/action', async (req:Request, res:Response) => {
+//     const { action, commentId } = req.body;
+//     const patchComment = getManager().getRepository(CommentsEntity);
+//     const comment = await patchComment.createQueryBuilder('comment')
+//         .where('comment.id = :id', { id: commentId })
+//         .getOne();
+//
+//     if (!comment) {
+//         throw new Error('wrong comment ID');
+//     }
+//
+//     if (action === 'like') {
+//         await patchComment.update({ id: commentId }, { like: comment.like + 1 });
+//     }
+//     if (action === 'dislike') {
+//         await patchComment.update({ id: commentId }, { dislike: comment.dislike + 1 });
+//     }
+//     res.sendStatus(201);
+// });
 app.delete('/users/:id', async (req, res) => {
     console.log(req.body);
     const createdUser = await (0, typeorm_1.getManager)()
