@@ -76,11 +76,15 @@ app.patch('/posts/:userId', async (req, res) => {
 app.patch('/comments/action', async (req, res) => {
     const { action, commentId } = req.body;
 
+    const comment = await getManager()
+        .getRepository(CommentsEntity)
+        .findOne({ id: Number(commentId) });
+
     if (action === 'like') {
         const patchComment = await getManager()
             .getRepository(CommentsEntity)
             .update({ id: Number(commentId) }, {
-                like: +1,
+                like: (() => `${comment?.like} + 1`),
             });
         res.json(patchComment);
     }
@@ -88,7 +92,7 @@ app.patch('/comments/action', async (req, res) => {
         const patchComment = await getManager()
             .getRepository(CommentsEntity)
             .update({ id: Number(commentId) }, {
-                dislike: -1,
+                dislike: (() => `${comment?.dislike} - 1`),
             });
         res.json(patchComment);
     }
@@ -102,7 +106,7 @@ app.patch('/comments/action', async (req, res) => {
 //         .getOne();
 //
 //     if (!comment) {
-//         throw new Error('wrong comment ID');
+//         console.error('error');
 //     }
 //
 //     if (action === 'like') {
