@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import express, { Request, Response } from 'express';
 import { createConnection, getManager } from 'typeorm';
 
-import { UserEntity } from './entity/userEntity';
 import { PostEntity } from './entity/postEntity';
 import { CommentsEntity } from './entity/commentsEntity';
 import { apiRouter } from './router/apiRouter';
@@ -13,11 +12,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(apiRouter);
 
-app.get('/users', async (req:Request, res:Response) => {
-    const users = await getManager().getRepository(UserEntity).find({ relations: ['posts', 'comments'] });
-    console.log(users);
-    res.json(users);
-});
 app.get('/posts/:userId', async (req:Request, res:Response) => {
     const { userId } = req.params;
     const allUserPosts = await getManager()
@@ -37,21 +31,6 @@ app.get('/comments/:authorId', async (req:Request, res:Response) => {
             },
         });
     res.json(allCommentsUser);
-});
-
-// app.post('/users', async (req, res) => {
-//
-// });
-
-app.patch('/users/:id', async (req, res) => {
-    const { password, email } = req.body;
-    const createdUser = await getManager()
-        .getRepository(UserEntity)
-        .update({ id: Number(req.params.id) }, {
-            password,
-            email,
-        });
-    res.json(createdUser);
 });
 
 app.patch('/posts/:userId', async (req, res) => {
@@ -87,34 +66,6 @@ app.patch('/comments/action', async (req, res) => {
             });
         res.json(patchComment);
     }
-});
-
-// app.patch('/comments/action', async (req:Request, res:Response) => {
-//     const { action, commentId } = req.body;
-//     const patchComment = getManager().getRepository(CommentsEntity);
-//     const comment = await patchComment.createQueryBuilder('comment')
-//         .where('comment.id = :id', { id: commentId })
-//         .getOne();
-//
-//     if (!comment) {
-//         console.error('error');
-//     }
-//
-//     if (action === 'like') {
-//         await patchComment.update({ id: commentId }, { like: comment.like + 1 });
-//     }
-//     if (action === 'dislike') {
-//         await patchComment.update({ id: commentId }, { dislike: comment.dislike + 1 });
-//     }
-//     res.sendStatus(201);
-// });
-
-app.delete('/users/:id', async (req, res) => {
-    console.log(req.body);
-    const createdUser = await getManager()
-        .getRepository(UserEntity)
-        .softDelete({ id: Number(req.params.id) });
-    res.json(createdUser);
 });
 
 app.listen(5200, async () => {
