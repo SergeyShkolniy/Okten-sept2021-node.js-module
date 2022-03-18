@@ -4,6 +4,7 @@ import { PostEntity } from './postEntity';
 import { CommentsEntity } from './commentsEntity';
 
 export interface IUserEntity {
+    id: number;
     firstName: string;
     lastName: string;
     age?: number;

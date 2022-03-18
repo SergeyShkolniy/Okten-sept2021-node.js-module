@@ -14,6 +14,12 @@ class UserRepository extends Repository<UserEntity> implements IUserRepository {
         return getManager().getRepository(UserEntity).find({ relations: ['posts', 'comments'] });
     }
 
+    public async getUserByEmail(email:string):Promise<IUserEntity | undefined> {
+        return getManager()
+            .getRepository(UserEntity)
+            .findOne({ email });
+    }
+
     public async patchUser(id:number, password:string, email:string): Promise<UpdateResult> {
         return getManager()
             .getRepository(UserEntity)

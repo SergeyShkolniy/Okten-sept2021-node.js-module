@@ -13,6 +13,12 @@ class UserController {
         return res.status(200).json(allUsers);
     }
 
+    public async getUserByEmail(req : Request, res : Response): Promise<Response<IUserEntity>> {
+        const { email } = req.params;
+        const userByEmail = await userService.getUserByEmail(email);
+        return res.status(200).json(userByEmail);
+    }
+
     public async patchUser(req : Request, res : Response): Promise<Response<IUserEntity>> {
         const { password, email } = req.body;
         const { id } = req.params;
