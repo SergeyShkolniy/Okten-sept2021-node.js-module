@@ -10,10 +10,11 @@ class CommentController {
         return res.status(200).json(allCommentAuthorId);
     }
 
-    // public async patchComments(req : Request, res : Response):
-    // Promise<Response<ICommentsEntity>>{
-    //     const { action, commentId } = req.body;
-    // }
+    public async patchComment(req : Request, res : Response): Promise<Response<ICommentsEntity>> {
+        const { commentId, action } = req.body;
+        const patchUpdateComment = await commentService.patchComment(+commentId, action);
+        return res.status(200).json(patchUpdateComment);
+    }
 }
 
 export const commentController = new CommentController();

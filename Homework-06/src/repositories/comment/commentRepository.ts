@@ -1,4 +1,6 @@
-import { EntityRepository, getManager, Repository } from 'typeorm';
+import {
+    EntityRepository, getManager, Repository, UpdateResult,
+} from 'typeorm';
 import { CommentsEntity, ICommentsEntity } from '../../entity/commentsEntity';
 import { ICommentRepository } from './commentRepository.interface';
 
@@ -13,6 +15,29 @@ class CommentRepository extends Repository <CommentsEntity> implements ICommentR
                     authorId: Number(authorId),
                 },
             });
+    }
+
+    // eslint-disable-next-line consistent-return
+    public async patchComment(commentId:number, action:string):
+        Promise< undefined | UpdateResult | Error> {
+        const comment = await getManager()
+            .getRepository(CommentsEntity)
+            .findOne({ id: Number(commentId) });
+
+        if (action === 'like') {
+            return getManager()
+                .getRepository(CommentsEntity)
+                .update({ id: Number(commentId) }, {
+                    like: (() => `${comment?.like} + 1`),
+                });
+        }
+        if (action === 'dislike') {
+            return getManager()
+                .getRepository(CommentsEntity)
+                .update({ id: Number(commentId) }, {
+                    dislike: (() => `${comment?.dislike} - 1`),
+                });
+        }
     }
 }
 
