@@ -1,12 +1,12 @@
 // 1)Повторіть всі ендпоінти як в мене
-// 2)Створіть міграцію для таблиці comments, яка буде мати такі поля
+// 2)Створіть міграцію для таблиці comment, яка буде мати такі поля
 // (id, text, authorId, postId, like, dislike, createdAt,deletedAt),
 // відповідно звязок з таблицею юзерс і постс
 // 3)Створіть ендпоінт get /posts/userId - який буде виводити пости якогось юзера який їх створив
 // 4)update /posts/userId можна оновити текст про пост
-// 5)get comments/userId вивести коментарі які належать юзеру який їх написав і пости в яких вони
+// 5)get comment/userId вивести коментарі які належать юзеру який їх написав і пости в яких вони
 // написані (якщо через квері почитаєте як там зробити мulti select)
-// *6) update /comments/action написати ендпоінт який буде приймати в body commentId,
+// *6) update /comment/action написати ендпоінт який буде приймати в body commentId,
 // action(like, dislike) і оновлювати в бд інформацію про кількість лайків і дизлайків в коментарі
 
 import 'reflect-metadata';
@@ -33,7 +33,7 @@ app.get('/posts/:userId', async (req:Request, res:Response) => {
     res.json(allUserPosts);
 });
 
-app.get('/comments/:authorId', async (req:Request, res:Response) => {
+app.get('/comment/:authorId', async (req:Request, res:Response) => {
     const { authorId } = req.params;
     const allCommentsUser = await getManager()
         .getRepository(CommentsEntity)
@@ -73,7 +73,7 @@ app.patch('/posts/:userId', async (req, res) => {
     res.json(patchPost);
 });
 
-app.patch('/comments/action', async (req, res) => {
+app.patch('/comment/action', async (req, res) => {
     const { action, commentId } = req.body;
 
     const comment = await getManager()
@@ -98,7 +98,7 @@ app.patch('/comments/action', async (req, res) => {
     }
 });
 
-// app.patch('/comments/action', async (req:Request, res:Response) => {
+// app.patch('/comment/action', async (req:Request, res:Response) => {
 //     const { action, commentId } = req.body;
 //     const patchComment = getManager().getRepository(CommentsEntity);
 //     const comment = await patchComment.createQueryBuilder('comment')
