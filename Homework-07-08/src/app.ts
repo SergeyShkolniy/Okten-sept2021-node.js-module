@@ -18,7 +18,7 @@ app.listen(5200, async () => {
     try {
         const connection = await createConnection();
         if (connection) {
-            console.log('Database connected');
+            console.log('Database connected URAAAA');
         }
     } catch (err) {
         if (err) console.log(err);
