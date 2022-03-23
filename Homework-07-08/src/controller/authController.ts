@@ -36,6 +36,14 @@ class AuthController {
             res.status(400).json(e.message);
         }
     }
+
+    public async logout(req: IRequestExtended, res: Response): Promise<Response<string>> {
+        const { id } = req.user as IUserEntity;
+
+        await tokenService.deleteUserTokenPair(id);
+
+        return res.json('Ok');
+    }
 }
 
 export const authController = new AuthController();
