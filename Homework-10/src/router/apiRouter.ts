@@ -12,13 +12,13 @@ router.use('/posts', postRouter);
 router.use('/comments', commentRouter);
 
 // @ts-ignore
-router.use('*', (err, req, res, next) => {
-    const errorBody = err.details.get('body');
-    const { details: [message] } = errorBody;
-    console.log(message);
-    res
-        .status(err.code || 500)
-        .json({ message: message.message });
-});
+// router.use('*', (err, req, res, next) => {
+//     res
+//         .status(err.status || 500)
+//         .json({
+//             message: err.message,
+//             data: err.data,
+//         });
+// });
 
 export const apiRouter = router;

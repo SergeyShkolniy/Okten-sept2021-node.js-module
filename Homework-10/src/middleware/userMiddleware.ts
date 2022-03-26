@@ -1,6 +1,7 @@
 import { NextFunction, Response } from 'express';
 import { IRequestExtended } from '../interface';
 import { userRepository } from '../repositories/user/userRepository';
+import { ErrorHandler } from '../error/errorHandler';
 
 class UserMiddleware {
     async checkIsUserExist(req: IRequestExtended, res: Response, next: NextFunction):
@@ -9,7 +10,8 @@ class UserMiddleware {
             const userFromDb = await userRepository.getUserByEmail(req.body.email);
 
             if (!userFromDb) {
-                throw new Error('wrong email or password');
+                next(new ErrorHandler('wrong email or password'));
+                return;
             }
 
             req.user = userFromDb;
