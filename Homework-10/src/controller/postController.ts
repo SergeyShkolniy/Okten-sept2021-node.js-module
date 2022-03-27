@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { IPostEntity } from '../entity/postEntity';
-import { postService } from '../services/postService';
+
+import { IPostEntity } from '../entity';
+import { postService } from '../services';
 
 class PostController {
     public async getAllPostsUserId(req : Request, res : Response):

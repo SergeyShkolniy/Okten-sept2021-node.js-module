@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
-import { authService } from '../services/authService';
+
+import { authService, userService, tokenService } from '../services';
 import { IRequestExtended, ITokenData } from '../interface';
 import { COOKIE } from '../constants';
-import { IUserEntity } from '../entity/userEntity';
-import { userService } from '../services/userService';
-import { tokenService } from '../services/tokenService';
-import { tokenRepository } from '../repositories/token/tokenRepository';
+import { IUserEntity } from '../entity';
+import { tokenRepository } from '../repositories';
 
 class AuthController {
     public async registration(req: Request, res: Response): Promise<Response<ITokenData>> {

@@ -1,7 +1,7 @@
 import {
     EntityRepository, getManager, Repository, UpdateResult,
 } from 'typeorm';
-import { IPostEntity, PostEntity } from '../../entity/postEntity';
+import { IPostEntity, PostEntity } from '../../entity';
 import { IPostRepository } from './postRepository.interface';
 
 @EntityRepository(PostEntity)

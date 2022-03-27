@@ -1,10 +1,10 @@
 import { NextFunction, Response } from 'express';
+
 import { IRequestExtended } from '../interface';
-import { tokenRepository } from '../repositories/token/tokenRepository';
-import { tokenService } from '../services/tokenService';
-import { userService } from '../services/userService';
+import { tokenRepository } from '../repositories';
+import { tokenService, userService } from '../services';
 import { authValidator } from '../validator';
-import { ErrorHandler } from '../error/errorHandler';
+import { ErrorHandler } from '../error';
 
 class AuthMiddleware {
     public async checkAccessToken(req: IRequestExtended, res: Response, next: NextFunction)
@@ -77,8 +77,22 @@ class AuthMiddleware {
     public validateCreateUser(req: IRequestExtended, res: Response, next: NextFunction) {
         try {
             const { error, value } = authValidator.registration.validate(req.body);
-            console.log(error);
-            console.log(value);
+
+            if (error) {
+                next(new ErrorHandler(error.details[0].message));
+                return;
+            }
+
+            req.body = value;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public validateLoginUser(req: IRequestExtended, res: Response, next: NextFunction) {
+        try {
+            const { error, value } = authValidator.login.validate(req.body);
 
             if (error) {
                 next(new ErrorHandler(error.details[0].message));

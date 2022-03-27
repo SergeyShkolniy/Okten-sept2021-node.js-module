@@ -1,8 +1,8 @@
 import {
     Column, Entity, JoinColumn, OneToOne,
 } from 'typeorm';
-import { CommonFieldsEntity } from './commonFieldsEntity';
 
+import { CommonFieldsEntity } from './commonFieldsEntity';
 import { UserEntity } from './userEntity';
 
 export interface ITokenEntity {

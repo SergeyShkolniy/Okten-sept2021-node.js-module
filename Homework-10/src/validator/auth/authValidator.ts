@@ -9,17 +9,41 @@ export const authValidator = {
             .required()
             .min(2)
             .max(30)
-            .message('name name name name'),
-        lastName: Joi.string().min(2).max(30).required(),
-        age: Joi.number().min(10).max(100).required(),
-        phone: commonValidator.phoneValidator,
-        email: commonValidator.emailValidator,
-        password: commonValidator.passwordValidator,
+            .messages({
+                'string.min': 'firstName: limit min 2 characters',
+                'string.max': 'firstName: limit max 30 characters',
+            }),
+        lastName: Joi.string()
+            .required()
+            .min(2)
+            .max(30)
+            .messages({
+                'string.min': 'lastName: limit min 2 characters',
+                'string.max': 'lastName: limit max 30 characters',
+            }),
+        age: Joi.number()
+            .required()
+            .min(10)
+            .max(100)
+            .messages({
+                'string.min': 'age: limit min 2 years',
+                'string.max': 'age: limit max 100 years',
+            }),
+        phone: commonValidator.phoneValidator.message('phone not valid'),
+        email: commonValidator.emailValidator.message('email not valid'),
+        password: commonValidator.passwordValidator.messages({
+            'string.min': 'limit min 8 characters',
+            'string.pattern.base': 'password not valid',
+        }),
     }),
 
     login: Joi.object({
-        email: commonValidator.emailValidator,
-        password: commonValidator.passwordValidator,
+        email: commonValidator.emailValidator.message('email not valid'),
+        password: commonValidator.passwordValidator
+            .messages({
+                'string.min': 'limit min 8 characters',
+                'string.pattern.base': 'password not valid',
+            }),
     }),
 
 };

@@ -1,8 +1,8 @@
 import { UpdateResult } from 'typeorm';
 import bcrypt from 'bcrypt';
 
-import { IUserEntity } from '../entity/userEntity';
-import { userRepository } from '../repositories/user/userRepository';
+import { IUserEntity } from '../entity';
+import { userRepository } from '../repositories';
 
 class UserService {
     public async createUser(user: IUserEntity): Promise<IUserEntity> {

@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { commentController } from '../controller/commentController';
+
+import { commentController } from '../controller';
 
 const router = Router();
 router.get('/:authorId', commentController.getAllCommentAuthorId);

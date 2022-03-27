@@ -1,6 +1,7 @@
 import {
     Column, Entity, ManyToOne, JoinColumn, OneToMany,
 } from 'typeorm';
+
 import { CommonFieldsEntity } from './commonFieldsEntity';
 import { UserEntity } from './userEntity';
 import { CommentsEntity } from './commentsEntity';

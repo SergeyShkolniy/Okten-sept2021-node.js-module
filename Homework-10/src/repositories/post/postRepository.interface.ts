@@ -1,5 +1,6 @@
 import { UpdateResult } from 'typeorm';
-import { IPostEntity } from '../../entity/postEntity';
+
+import { IPostEntity } from '../../entity';
 
 export interface IPostRepository {
     getAllPostsUserId(userId:number): Promise<IPostEntity [] >,

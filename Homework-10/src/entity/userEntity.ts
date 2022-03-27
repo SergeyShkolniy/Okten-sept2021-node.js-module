@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
+
 import { CommonFieldsEntity } from './commonFieldsEntity';
 import { PostEntity } from './postEntity';
 import { CommentsEntity } from './commentsEntity';

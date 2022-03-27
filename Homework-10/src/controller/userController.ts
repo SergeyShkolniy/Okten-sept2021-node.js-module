@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { IUserEntity } from '../entity/userEntity';
-import { userService } from '../services/userService';
+
+import { IUserEntity } from '../entity';
+import { userService } from '../services';
 
 class UserController {
     public async createUser(req : Request, res : Response): Promise<Response<IUserEntity>> {

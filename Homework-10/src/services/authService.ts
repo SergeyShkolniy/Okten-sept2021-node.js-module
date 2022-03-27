@@ -1,5 +1,6 @@
 import { userService } from './userService';
-import { IUserEntity } from '../entity/userEntity';
+
+import { IUserEntity } from '../entity';
 import { tokenService } from './tokenService';
 import { ITokenData } from '../interface';
 

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { ICommentsEntity } from '../entity/commentsEntity';
-import { commentService } from '../services/comment.Service';
+
+import { ICommentsEntity } from '../entity';
+import { commentService } from '../services';
 
 class CommentController {
     public async getAllCommentAuthorId(req : Request, res : Response):

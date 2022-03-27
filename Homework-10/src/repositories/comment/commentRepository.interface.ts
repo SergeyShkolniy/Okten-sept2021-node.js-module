@@ -1,5 +1,6 @@
 import { UpdateResult } from 'typeorm';
-import { ICommentsEntity } from '../../entity/commentsEntity';
+
+import { ICommentsEntity } from '../../entity';
 
 export interface ICommentRepository {
     getAllCommentsAuthorId(authorId:number): Promise<ICommentsEntity [] >,
