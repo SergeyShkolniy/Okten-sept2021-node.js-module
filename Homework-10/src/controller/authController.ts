@@ -1,26 +1,18 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 
-import { authService, userService, tokenService } from '../services';
-import { IRequestExtended, ITokenData } from '../interface';
-import { COOKIE } from '../constants';
+import { emailService, tokenService, userService } from '../services';
+import { IRequestExtended } from '../interface';
 import { IUserEntity } from '../entity';
 import { tokenRepository } from '../repositories';
+import { emailActionEnum } from '../email';
 
 class AuthController {
-    public async registration(req: Request, res: Response): Promise<Response<ITokenData>> {
-        const data = await authService.registration(req.body);
-        res.cookie(
-            COOKIE.nameRefreshToken,
-            data.refreshToken,
-            { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
-        );
-        return res.json(data);
-    }
-
     public async login(req:IRequestExtended, res: Response) {
         try {
             const { id, email, password: hashPassword } = req.user as IUserEntity;
             const { password } = req.body;
+
+            await emailService.sendMail(email, emailActionEnum.LOGIN);
             await userService.compareUserPasswords(password, hashPassword);
             const { refreshToken, accessToken } = tokenService
                 .generateTokenPair({ userId: id, userEmail: email });
@@ -37,8 +29,8 @@ class AuthController {
     }
 
     public async logout(req: IRequestExtended, res: Response): Promise<Response<string>> {
-        const { id } = req.user as IUserEntity;
-
+        const { id, email } = req.user as IUserEntity;
+        await emailService.sendMail(email, emailActionEnum.LOGOUT);
         await tokenService.deleteUserTokenPair(id);
 
         return res.json('Ok');

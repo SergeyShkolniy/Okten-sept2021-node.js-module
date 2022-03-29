@@ -1,12 +1,22 @@
 import { Request, Response } from 'express';
 
 import { IUserEntity } from '../entity';
-import { userService } from '../services';
+import { emailService, userService } from '../services';
+import { ITokenData } from '../interface';
+import { emailActionEnum } from '../email';
+import { COOKIE } from '../constants';
 
 class UserController {
-    public async createUser(req : Request, res : Response): Promise<Response<IUserEntity>> {
-        const createdUser = await userService.createUser(req.body);
-        return res.status(201).json(createdUser);
+    public async createUser(req: Request, res: Response): Promise<Response<ITokenData>> {
+        // const data = await authService.registration(req.body);
+        const data = await userService.createUser(req.body);
+        await emailService.sendMail(req.body.email, emailActionEnum.REGISTRATION);
+        res.cookie(
+            COOKIE.nameRefreshToken,
+            data.refreshToken,
+            { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
+        );
+        return res.json(data);
     }
 
     public async getAllUsers(req : Request, res : Response): Promise<Response<IUserEntity[]>> {

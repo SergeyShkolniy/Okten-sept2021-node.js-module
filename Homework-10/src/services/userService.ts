@@ -3,16 +3,19 @@ import bcrypt from 'bcrypt';
 
 import { IUserEntity } from '../entity';
 import { userRepository } from '../repositories';
+import { ITokenData } from '../interface';
+import { tokenService } from './tokenService';
 
 class UserService {
-    public async createUser(user: IUserEntity): Promise<IUserEntity> {
+    public async createUser(user: IUserEntity): Promise<ITokenData> {
         const { password } = user;
 
         const hashedPassword = await this._hashPassword(password);
         const dataToSave = { ...user, password: hashedPassword };
 
         const createdUser = await userRepository.createUser(dataToSave);
-        return createdUser;
+        // return createdUser;
+        return this._getTokenData(createdUser);
     }
 
     public async getAllUsers(): Promise<IUserEntity []> {
@@ -43,6 +46,20 @@ class UserService {
 
     private async _hashPassword(password:string): Promise<string> {
         return bcrypt.hash(password, 10);
+    }
+
+    private async _getTokenData(userData: IUserEntity): Promise<ITokenData> {
+        const { id, email } = userData;
+        const { refreshToken, accessToken } = await tokenService
+            .generateTokenPair({ userId: id, userEmail: email });
+        await tokenService.saveToken(id, refreshToken, accessToken);
+
+        return {
+            refreshToken,
+            accessToken,
+            userId: id,
+            userEmail: email,
+        };
     }
 }
 

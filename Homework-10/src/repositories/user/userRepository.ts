@@ -1,7 +1,7 @@
 import {
     EntityRepository, getManager, Repository, UpdateResult,
 } from 'typeorm';
-import { IUserEntity, UserEntity } from '../../entity/userEntity';
+import { IUserEntity, UserEntity } from '../../entity';
 import { IUserRepository } from './userRepository.interface';
 
 @EntityRepository(UserEntity)
@@ -18,6 +18,13 @@ class UserRepository extends Repository<UserEntity> implements IUserRepository {
         return getManager()
             .getRepository(UserEntity)
             .findOne({ email });
+    }
+
+    public async getUserByEmailOrPhone(email: string, phone: string)
+        :Promise<IUserEntity | undefined> {
+        return getManager()
+            .getRepository(UserEntity)
+            .findOne({ email, phone });
     }
 
     public async patchUser(id:number, password:string, email:string): Promise<UpdateResult> {
