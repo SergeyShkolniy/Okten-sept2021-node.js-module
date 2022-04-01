@@ -8,7 +8,6 @@ import { COOKIE } from '../constants';
 
 class UserController {
     public async createUser(req: Request, res: Response): Promise<Response<ITokenData>> {
-        // const data = await authService.registration(req.body);
         const data = await userService.createUser(req.body);
         await emailService.sendMail(req.body.email, emailActionEnum.REGISTRATION);
         res.cookie(
