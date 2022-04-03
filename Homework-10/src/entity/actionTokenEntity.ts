@@ -4,11 +4,12 @@ import {
 
 import { CommonFieldsEntity } from './commonFieldsEntity';
 import { UserEntity } from './userEntity';
+import { ActionTokenTypes } from '../enum/actionTokenTypesEnum';
 
 export interface IActionTokenEntity {
     userId: number;
     actionToken: string;
-    type: string;
+    type: ActionTokenTypes;
 }
 
 @Entity('actionTokens', { database: 'okten' })
@@ -25,7 +26,7 @@ export class ActionTokenEntity extends CommonFieldsEntity implements IActionToke
         width: 255,
         nullable: false,
     })
-        type: string;
+        type: ActionTokenTypes;
 
     @Column({
         type: 'int',

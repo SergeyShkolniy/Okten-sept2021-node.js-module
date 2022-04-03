@@ -32,6 +32,9 @@ class TokenService {
         if (tokenType === 'refresh') {
             secretWord = config.SECRET_REFRESH_KEY;
         }
+        if (tokenType === 'action') {
+            secretWord = config.SECRET_ACTION_TOKEN_KEY;
+        }
         return jwt.verify(authToken, secretWord as string) as IUserPayload;
     }
 
@@ -41,6 +44,10 @@ class TokenService {
 
     public async deleteUserTokenPair(userId: number) {
         return tokenRepository.deleteByParams({ userId });
+    }
+
+    public generateActionToken(payload:IUserPayload): string {
+        return jwt.sign(payload, config.SECRET_ACTION_TOKEN_KEY as string, { expiresIn: '1d' });
     }
 }
 

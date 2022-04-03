@@ -12,4 +12,8 @@ export const authValidator = {
             }),
     }),
 
+    email: Joi.object({
+        email: commonValidator.emailValidator.message('email not valid'),
+    }),
+
 };

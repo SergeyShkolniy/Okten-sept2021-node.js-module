@@ -1,5 +1,6 @@
-export enum emailActionEnum {
+export enum EmailActionEnum {
     REGISTRATION,
     LOGIN,
     LOGOUT,
+    FORGOT_PASSWORD
 }

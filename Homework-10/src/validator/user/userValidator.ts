@@ -36,4 +36,11 @@ export const userValidator = {
             'string.pattern.base': 'password not valid',
         }),
     }),
+
+    password: Joi.object({
+        password: commonValidator.passwordValidator.messages({
+            'string.min': 'limit min 8 characters',
+            'string.pattern.base': 'password not valid',
+        }),
+    }),
 };

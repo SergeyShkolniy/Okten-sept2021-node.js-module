@@ -3,13 +3,13 @@ import { Request, Response } from 'express';
 import { IUserEntity } from '../entity';
 import { emailService, userService } from '../services';
 import { ITokenData } from '../interface';
-import { emailActionEnum } from '../email';
+import { EmailActionEnum } from '../email';
 import { COOKIE } from '../constants';
 
 class UserController {
     public async createUser(req: Request, res: Response): Promise<Response<ITokenData>> {
         const data = await userService.createUser(req.body);
-        await emailService.sendMail(req.body.email, emailActionEnum.REGISTRATION);
+        await emailService.sendMail(req.body.email, EmailActionEnum.REGISTRATION);
         res.cookie(
             COOKIE.nameRefreshToken,
             data.refreshToken,
@@ -30,9 +30,9 @@ class UserController {
     }
 
     public async patchUser(req : Request, res : Response): Promise<Response<IUserEntity>> {
-        const { password, email } = req.body;
+        const { firstName, lastName } = req.body;
         const { id } = req.params;
-        const patchUpdateUser = await userService.patchUser(+id, password, email);
+        const patchUpdateUser = await userService.patchUser(+id, firstName, lastName);
         return res.status(200).json(patchUpdateUser);
     }
 

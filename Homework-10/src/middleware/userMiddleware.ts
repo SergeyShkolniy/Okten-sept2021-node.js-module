@@ -91,6 +91,23 @@ class UserMiddleware {
         }
     }
 
+    public validatePassword(req: IRequestExtended, res: Response, next: NextFunction)
+        : Promise<void> | undefined {
+        try {
+            const { error, value } = userValidator.password.validate(req.body);
+
+            if (error) {
+                next(new ErrorHandler(error.details[0].message));
+                return;
+            }
+
+            req.body = value;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
     public validateEmailAndPassword(req: IRequestExtended, res: Response, next: NextFunction)
         : Promise<void> | undefined {
         try {

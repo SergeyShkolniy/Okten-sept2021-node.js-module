@@ -1,17 +1,21 @@
-import { emailActionEnum } from './enums';
+import { EmailActionEnum } from './enums';
 
 export const emailInfo = {
-    [emailActionEnum.REGISTRATION]: {
+    [EmailActionEnum.REGISTRATION]: {
         subject: 'REGISTRATION: welcome to september 2021',
         templateName: 'emailRegistration',
     },
-    [emailActionEnum.LOGIN]: {
+    [EmailActionEnum.LOGIN]: {
         subject: 'LOGIN: welcome to account',
         templateName: 'emailLogin',
     },
-    [emailActionEnum.LOGOUT]: {
+    [EmailActionEnum.LOGOUT]: {
         subject: 'LOGOUT: good bay is september 2021',
         templateName: 'emailLogout',
+    },
+    [EmailActionEnum.FORGOT_PASSWORD]: {
+        subject: 'FORGOT_PASSWORD: FORGOT_PASSWORD',
+        templateName: 'emailForgotPassword',
     },
 
 };

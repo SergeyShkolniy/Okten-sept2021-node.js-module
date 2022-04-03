@@ -3,7 +3,7 @@ import EmailTemplate from 'email-templates';
 import path from 'path';
 
 import { config } from '../config';
-import { emailActionEnum, emailInfo } from '../email';
+import { EmailActionEnum, emailInfo } from '../email';
 
 class EmailService {
     templateRenderer = new EmailTemplate({
@@ -16,9 +16,11 @@ class EmailService {
         },
     });
 
-    async sendMail(userMail = '', action: emailActionEnum) {
+    async sendMail(userMail = '', action: EmailActionEnum, context = {}) {
         const { subject, templateName } = emailInfo[action];
-        const html = await this.templateRenderer.render(templateName);
+        Object.assign(context);
+        const html = await this.templateRenderer.render(templateName, context);
+
         const emailTransporter = nodemailer.createTransport({
             from: 'node.js September 2021',
             service: 'gmail',

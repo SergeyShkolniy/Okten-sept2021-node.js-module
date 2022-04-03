@@ -1,6 +1,7 @@
 import {
     EntityRepository, getManager, Repository, UpdateResult,
 } from 'typeorm';
+
 import { IUserEntity, UserEntity } from '../../entity';
 import { IUserRepository } from './userRepository.interface';
 
@@ -27,12 +28,21 @@ class UserRepository extends Repository<UserEntity> implements IUserRepository {
             .findOne({ email, phone });
     }
 
-    public async patchUser(id:number, password:string, email:string): Promise<UpdateResult> {
+    public async patchUser(id:number, firstName:string, lastName:string)
+        : Promise<UpdateResult> {
+        return getManager()
+            .getRepository(UserEntity)
+            .update({ id }, {
+                firstName,
+                lastName,
+            });
+    }
+
+    public async patchUserPassword(id:number, password:string): Promise<UpdateResult> {
         return getManager()
             .getRepository(UserEntity)
             .update({ id }, {
                 password,
-                email,
             });
     }
 

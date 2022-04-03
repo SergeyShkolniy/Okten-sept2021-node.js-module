@@ -28,8 +28,14 @@ class UserService {
         return userByEmail;
     }
 
-    public async patchUser(id:number, password:string, email:string): Promise<UpdateResult> {
-        return userRepository.patchUser(id, password, email);
+    public async patchUser(id:number, firstName:string, lastName:string)
+        : Promise<UpdateResult> {
+        return userRepository.patchUser(id, firstName, lastName);
+    }
+
+    public async patchUserPassword(id:number, password:string): Promise<UpdateResult> {
+        const hashedPassword = await this._hashPassword(password);
+        return userRepository.patchUserPassword(id, hashedPassword);
     }
 
     public async deleteUser(id:number): Promise<void> {
