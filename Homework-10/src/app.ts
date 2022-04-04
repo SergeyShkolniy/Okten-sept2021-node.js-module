@@ -5,6 +5,8 @@ import path from 'path';
 import { createConnection } from 'typeorm';
 
 import { apiRouter } from './router';
+import { cronRun } from './cron';
+import { config } from './config';
 
 const app = express();
 
@@ -28,15 +30,16 @@ app.use('*', (err, req, res, next) => {
         });
 });
 
-const { PORT } = process.env;
+// const { PORT } = config.PORT;
 
-app.listen(5200, async () => {
-    console.log(`Serves started on PORT:${PORT}`);
+app.listen(config.PORT, async () => {
+    console.log(`Serves started on PORT:${config.PORT}`);
 
     try {
         const connection = await createConnection();
         if (connection) {
             console.log('Database connected');
+            cronRun();
         }
     } catch (err) {
         if (err) console.log(err);

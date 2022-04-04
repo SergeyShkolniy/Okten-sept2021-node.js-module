@@ -1,9 +1,13 @@
 import {
-    EntityRepository, getManager, Repository, UpdateResult,
+    EntityRepository, getManager, LessThanOrEqual, Repository, UpdateResult,
 } from 'typeorm';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 import { IUserEntity, UserEntity } from '../../entity';
 import { IUserRepository } from './userRepository.interface';
+
+dayjs.extend(utc);
 
 @EntityRepository(UserEntity)
 class UserRepository extends Repository<UserEntity> implements IUserRepository {
@@ -13,6 +17,15 @@ class UserRepository extends Repository<UserEntity> implements IUserRepository {
 
     public async getAllUsers():Promise<IUserEntity []> {
         return getManager().getRepository(UserEntity).find({ relations: ['posts', 'comments'] });
+    }
+
+    public async sendEmailAllUsers():Promise<IUserEntity []> {
+        return getManager().getRepository(UserEntity).find({
+            relations: ['posts', 'comments'],
+            where: {
+                createdAt: LessThanOrEqual(`${dayjs().utc().startOf('minute').format()}`),
+            },
+        });
     }
 
     public async getUserByEmail(email:string):Promise<IUserEntity | undefined> {

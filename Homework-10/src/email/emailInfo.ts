@@ -17,5 +17,9 @@ export const emailInfo = {
         subject: 'FORGOT_PASSWORD: FORGOT_PASSWORD',
         templateName: 'emailForgotPassword',
     },
+    [EmailActionEnum.ALL_USERS]: {
+        subject: 'All users email spam',
+        templateName: 'emailAllUsers',
+    },
 
 };
