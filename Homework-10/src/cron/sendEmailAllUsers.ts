@@ -10,17 +10,10 @@ export const sendEmailAllUsers = async () => {
 
         const allUsers = await userRepository.sendEmailAllUsers();
 
-        const allEmailUsers: any [] = [];
-        allUsers.map((user) => allEmailUsers.push(user));
-
-        const results = await Promise.all(allEmailUsers);
-        results.forEach((result) => emailService
-            .sendMail(
-                result.email,
-                EmailActionEnum.ALL_USERS,
-                {
-                    firstName: result.firstName,
-                },
-            ));
+        await Promise.allSettled(allUsers.map(async (user) => emailService.sendMail(
+            user.email,
+            EmailActionEnum.ALL_USERS,
+            { firstName: user.firstName },
+        )));
     });
 };
